@@ -3,7 +3,7 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # Ou o branch principal do seu projeto
 
 jobs:
   build-and-deploy:
@@ -12,13 +12,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '16'
 
       - name: Install dependencies
         run: npm install
@@ -32,7 +30,11 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git add build
+          git remote set-url origin https://github.com/${{ github.repository }}.git
+          git fetch origin
+          git reset --hard origin/gh-pages
+          mkdir -p out
+          cp -r build/* out/
+          git add out
           git commit -m "Deploy to GitHub Pages"
-          git push --force origin `git subtree split --prefix build main`:gh-pages
+          git push --force origin HEAD:gh-pages
