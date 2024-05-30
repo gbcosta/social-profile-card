@@ -1,9 +1,16 @@
 interface CardButtonProps {
-    children: string
+    children: string;
+    link: string;
 }
-const CardButton = (props: CardButtonProps)=>{
-    return <button className="bg-zinc-600 text-white font-bold w-full py-2 rounded-full">
-        {props.children}
+const CardButton = ({
+    children, 
+    link
+}: CardButtonProps)=>{
+        return <button onClick={()=>{
+        window.open(link)
+    }} className="bg-zinc-600 hover:bg-green-400
+        hover:text-zinc-800 text-white font-bold w-full py-2 rounded-md">
+        {children}
     </button>
 }
 
