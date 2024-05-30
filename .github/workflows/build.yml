@@ -30,7 +30,11 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git add build
+          git remote set-url origin https://github.com/${{ github.repository }}.git
+          git fetch origin
+          git reset --hard origin/gh-pages
+          mkdir -p out
+          cp -r build/* out/
+          git add out
           git commit -m "Deploy to GitHub Pages"
-          git push --force origin `git subtree split --prefix build main`:gh-pages
+          git push --force origin HEAD:gh-pages
