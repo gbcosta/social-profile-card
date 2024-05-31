@@ -34,6 +34,7 @@ jobs:
           git fetch origin
           git reset --hard origin/gh-pages
           mv -fv build/* .
+          rm -rf node_modules
           git add .
           git commit -m "Deploy to GitHub Pages"
           git push -f origin HEAD:gh-pages || true
