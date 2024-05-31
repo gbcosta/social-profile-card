@@ -33,7 +33,9 @@ jobs:
           git remote set-url origin https://github.com/${{ github.repository }}.git
           git fetch origin
           git reset --hard origin/gh-pages
+          ls
           git rm -rf *
+          ls
           mv -fv build/* .
           git add .
           git commit -m "Deploy to GitHub Pages"
